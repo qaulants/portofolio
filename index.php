@@ -8,6 +8,31 @@ $rowUser = mysqli_fetch_assoc($querUser);
 
 $queryPengaturan = mysqli_query($koneksi, "SELECT * FROM general_setting ORDER BY id DESC");
 $rowPengaturan = mysqli_fetch_assoc($queryPengaturan);
+
+$queryAbout = mysqli_query($koneksi, "SELECT * FROM about ORDER BY id DESC");
+$rowAbout = mysqli_fetch_assoc($queryAbout);
+
+if (isset($_POST['send'])) {
+  $name = mysqli_real_escape_string($koneksi, $_POST['nama']);
+  $email = htmlspecialchars($_POST['email']);
+  $no_hp = htmlspecialchars($_POST['no_hp']);
+  $subject = htmlspecialchars($_POST['subjek']);
+  $message = htmlspecialchars($_POST['isi_pesan']);
+
+  $select = mysqli_query($koneksi, "SELECT email FROM pesan WHERE email = '$email'");
+
+  if (mysqli_num_rows($select) > 0) {
+      header("location: index.php?status=email-sudahada");
+      exit();
+  } else {
+      $insert = mysqli_query($koneksi, "INSERT INTO pesan (nama, email, no_hp, subjek, isi_pesan) VALUES ('$name', '$email', '$no_hp', '$subject', '$message') ");
+
+      if ($insert) {
+          header("Location: index.php?status=success");
+          exit();
+      }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,21 +81,29 @@ $rowPengaturan = mysqli_fetch_assoc($queryPengaturan);
       <a href="#" class="btn">Download CV</a>
     </div>
     <div class="home-img">
-      <img src="admin/upload/<?php echo $rowUser['foto_user'] ?>" alt="">
+      <img src="" alt="">
     </div>
   </section>
-
+<!--  -->
   <!-- about -->
   <section class="about" id="about">
     <div class="about-img">
-      <img src="img/4.jpg" alt="">
+      <img src="admin/upload/<?php echo $rowUser['foto_user'] ?>" alt="">
     </div>
 
     <div class="about-content">
-      <h2 class="heading">About Me</h2>
-      <h3>Web Developer</h3>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores aut, harum, beatae fugiat consectetur debitis quisquam excepturi inventore totam eum molestias ipsum nobis similique obcaecati provident, tempora pariatur animi rerum?</p>
-      <a href="#" class="btn">Read more</a>
+      <h2 class="heading">About <span>Me</span></h2>
+      <!-- <h3>Web Developer</h3> -->
+          <p class="fst-italic py-3">
+            <?php echo $rowAbout['deskripsi_diri'];?>
+          </p>
+          <ul>
+            <li> <strong>Birthday:</strong> <span><?php echo $rowAbout['birthday'];?></span></li> 
+            <li> <strong>Email:</strong> <span><?php echo $rowAbout['email'];?></span></li>
+            <li> <strong>City:</strong> <span><?php echo $rowAbout['city'];?></span></li>
+            <li> <strong>Degree:</strong> <span><?php echo $rowAbout['degree'] ?></span></li>
+            <li> <strong>Freelance:</strong> <span>Available</span></li>
+          </ul>  
     </div>
   </section>
 
@@ -86,7 +119,6 @@ $rowPengaturan = mysqli_fetch_assoc($queryPengaturan);
       <div class="services-box">
         <i class="fa-brands fa-css3-alt"></i>
         <h3>CSS</h3>
-
       </div>
       <div class="services-box">
         <i class="fa-brands fa-js"></i>
@@ -129,21 +161,25 @@ $rowPengaturan = mysqli_fetch_assoc($queryPengaturan);
     <h2 class="heading">
       Contact <span>Me</span>
     </h2>
-
-    <form action="#">
+    <?php if (isset($_GET['status']) && $_GET['status'] == "success") {
+                        echo "<div class='alert alert-primary' role='alert'>Data Berhasil Dikirim</div>";
+                    } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
+                        echo "<div class='alert alert-warning' role='alert'>Email Sudah Ada</div>";
+                    }
+    ?>
+    <form method="POST" action="">
       <div class="input-box">
-        <input type="text" placeholder="Name">
-        <input type="email" placeholder="Email">
+        <input type="text" placeholder="Name" name="nama" required>
+        <input type="email" placeholder="Email" name="email" required>
       </div>
       <div class="input-box">
-        <input type="number" placeholder="Your number phone">
-        <input type="text" placeholder="Email Subject">
+        <input type="number" placeholder="Your number phone" name="no_hp" required>
+        <input type="text" placeholder="Subject" name="subjek" required>
       </div>
-      <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-      <button type="submit" value="Send Message" class="btn">Send Message</button>
+      <textarea name="isi_pesan" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
+      <button type="submit" value="Send Message" name="send" class="btn">Send Message</button>
     </form>
   </section>
-
   <!-- footer -->
   <footer class="footer">
     <div class="footer-text">

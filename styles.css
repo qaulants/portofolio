@@ -21,15 +21,15 @@
 html {
   font-size: 62.5%;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--bg-color);
   color: var(--text-color);
 }
-
 section {
-  min-height: 100vh;
+  min-height: 85vh;
   padding: 10rem 9% 2rem;
 }
 
@@ -39,11 +39,16 @@ section {
   left: 0;
   width: 100%;
   padding: 2rem 9%;
-  background: var(--bg-color);
+  background: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
+}
+
+.header.scrolled{
+  background: rgba(0, 0, 0, 0.8);
+  transition: background 0.3s ease;
 }
 
 .logo {
@@ -72,10 +77,28 @@ section {
 
 .home {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
 }
 
+.home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('img/4.jpg'); /* Ganti dengan nama file gambar kamu */
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px); /* Atur nilai blur sesuai keinginan */
+  z-index: 1; /* Pastikan ini di bawah konten */
+}
+.home-content{
+  position: relative; /* Pastikan konten ditampilkan di atas blur */
+  z-index: 2;
+}
 .home-content h3{
   font-size: 3.2rem;
   font-weight: 700;
@@ -95,13 +118,13 @@ span {
   line-height: 1.3;
 }
 
-.home-img img{
+/* .home-img img{
   width: 25vw;
   border-radius: 50%;
-  /* border: .2rem solid var(--main-color); */
+  /* border: .2rem solid var(--main-color); 
   box-shadow: 0 0 0.5rem var(--main-color);
   animation: floatImage 4s ease-in-out infinite;
-}
+} */
 
 @keyframes floatImage {
   0% {
@@ -145,7 +168,7 @@ span {
   padding: 1rem 2.8rem;
   background: var(--main-color);
   border-radius: 4rem;
-  box-shadow: 0 0 1rem var(--main-color);
+  box-shadow: 0 0 2rem var(--main-color);
   font-size: 1.6rem;
   color: var(--bg-color);
   letter-spacing: .1rem;
@@ -162,12 +185,12 @@ span {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 10rem;
   background: var(--snd-bg-color);
 }
 
 .about-img img {
-  width: 35vw;
+  width: 25vw;
   border-radius: 2rem;
 }
 
@@ -176,18 +199,30 @@ span {
   font-size: 4.5rem;
 }
 
+.about-content {
+  padding: 2rem;
+  background: var(--bg-color);
+  border: 0 solid var(--main-color);
+  box-shadow: 0 0 3rem var(--main-color);
+  border-radius: 12px;
+}
+
 .about-content h2 {
   text-align: left;
   line-height: 1.2;
 }
 
-.about-content h3 {
+/* .about-content h3 {
   font-size: 2.6rem;
-}
+} */
 
-.about-content p {
+.about-content ul li {
   font-size: 1.6rem;
   margin: 2rem 0 3rem;
+  list-style: none;
+}
+.about-content p {
+  font-size: 1.6rem;
 }
 
 .services h2{
@@ -203,7 +238,7 @@ span {
 }
 
 .services-container .services-box {
-  flex: 1 1 20rem;
+  flex: 1 1 40rem;
   background: var(--snd-bg-color);
   padding: 2rem;
   border-radius: 2rem;
@@ -315,7 +350,7 @@ border-radius: 50%;
 }
 
 .contact form {
-  max-width: 70rem;
+  max-width: 100rem;
   margin: 1rem auto;
   text-align: center;
   margin-bottom: 3rem;

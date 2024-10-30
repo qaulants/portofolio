@@ -46,12 +46,12 @@ if (isset($_POST['simpan'])) {
 
 </head>
 
-<body class="bg-gradient-primary">
+<body style="background-image: url('../img/4.jpg');background-size: cover;">
 
   <div class="container">
 
     <!-- Outer Row -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
 
       <div class="col-xl-10 col-lg-12 col-md-9">
 

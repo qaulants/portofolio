@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color:#191f36;" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -35,6 +35,15 @@
       <span>Pengaturan</span></a>
   </li>
 
+  <hr class="sidebar-divider my-0">
+
+  <li class="nav-item">
+    <a class="nav-link" href="about.php">
+      <i class="fas fa-fw fa-address-card"></i>
+      <span>About</span></a>
+  </li>
+
+  <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
   <li class="nav-item">
