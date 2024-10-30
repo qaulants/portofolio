@@ -70,25 +70,19 @@
   </li>
   <hr class="sidebar-divider my-0">
 
-
-
-  <!-- Nav Item - Charts -->
   <li class="nav-item">
-    <a class="nav-link" href="../assets/admin/charts.html">
-      <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span></a>
+    <a class="nav-link" href="education.php">
+      <i class="fas fa-fw fa-graduation-cap"></i>
+      <span>Education</span>
+    </a>
   </li>
-
-  <!-- Nav Item - Tables -->
+  <hr class="sidebar-divider my-0">
   <li class="nav-item">
-    <a class="nav-link" href="../assets/admin/tables.html">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Tables</span></a>
+    <a class="nav-link" href="experience.php">
+      <i class="fas fa-fw fa-briefcase"></i>
+      <span>Experience</span>
+    </a>
   </li>
-
-  <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
-
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>

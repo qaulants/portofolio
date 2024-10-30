@@ -14,6 +14,10 @@ $rowAbout = mysqli_fetch_assoc($queryAbout);
 
 $querySkill = mysqli_query($koneksi, "SELECT * FROM skill ORDER BY id DESC");
 
+$qeryEducation = mysqli_query($koneksi, "SELECT * FROM education ORDER BY id DESC");
+
+$queryExperience = mysqli_query($koneksi, "SELECT * FROM experience ORDER BY id DESC");
+
 if (isset($_POST['send'])) {
   $name = mysqli_real_escape_string($koneksi, $_POST['nama']);
   $email = htmlspecialchars($_POST['email']);
@@ -81,7 +85,7 @@ if (isset($_POST['send'])) {
         <a href="<?php echo $rowPengaturan['ig_link'] ?>"><i class="fa-brands fa-instagram"></i></a>
         <a href="<?php echo $rowPengaturan['linkedin_link'] ?>"><i class="fa-brands fa-linkedin"></i></a>
       </div>
-      <a href="admin/uploadDok/<?php echo $rowUser['dokumen']?>" class="btn">Download CV</a>
+      <a href="admin/uploadDok/<?php echo $rowUser['dokumen'] ?>" class="btn">Download CV</a>
     </div>
     <div class="home-img">
       <img src="" alt="">
@@ -121,38 +125,30 @@ if (isset($_POST['send'])) {
     <h2 class="heading">My <span>Resume</span></h2>
 
     <div class="resume-container">
-
       <!-- Education Section -->
       <div class="resume-box">
         <h2 class="resume-title"><i class="fa-solid fa-graduation-cap"></i> Education</h2>
         <div class="resume-content">
-          <div class="resume-item">
-            <h2>Computer Science</h2>
-            <p class="resume-institution">University XYZ, 2021 - 2024</p>
-            <p class="resume-description">Achieved a Bachelor’s Degree in Computer Science with a focus on web development, data science, and software engineering.</p>
-          </div>
-          <div class="resume-item">
-            <h2>Digital Talent Scholarship – FGA</h2>
-            <p class="resume-institution">Completed, February - April 2024</p>
-            <p class="resume-description">Participated in a data science training program that enhanced my skills in data analysis, machine learning, and Python programming.</p>
-          </div>
+          <?php while ($rowEducation = mysqli_fetch_assoc($qeryEducation)): ?>
+            <div class="resume-item">
+              <h2><?php echo $rowEducation['jurusan'] ?></h2>
+              <p class="resume-institution"><?php echo $rowEducation['nama'] ?></p>
+              <p class="resume-description"><?php echo $rowEducation['deskripsi'] ?></p>
+            </div>
+          <?php endwhile; ?>
         </div>
       </div>
-
       <!-- Experience Section -->
       <div class="resume-box">
         <h3 class="resume-title"><i class="fa-solid fa-briefcase"></i> Experience</h3>
         <div class="resume-content">
-          <div class="resume-item">
-            <h2>Intern - Frontend Developer</h2>
-            <p class="resume-institution">ABC Tech Company, 2023 - Present</p>
-            <p class="resume-description">Worked on developing responsive web applications using HTML, CSS, and JavaScript. Collaborated with the design team to implement modern UI components.</p>
-          </div>
-          <div class="resume-item">
-            <h2>Member of Creative and Design Division</h2>
-            <p class="resume-institution">HIMTI, 2022 - 2023</p>
-            <p class="resume-description">Designed social media posts and event posters, contributing to increased engagement for the organization’s online presence.</p>
-          </div>
+          <?php while ($rowExperience = mysqli_fetch_assoc($queryExperience)): ?>
+            <div class="resume-item">
+              <h2><?php echo $rowExperience['bidang'] ?></h2>
+              <p class="resume-institution"><?php echo $rowExperience['nama'] ?></p>
+              <p class="resume-description"><?php echo $rowExperience['deskripsi'] ?></p>
+            </div>
+          <?php endwhile; ?>
         </div>
       </div>
 
@@ -177,30 +173,34 @@ if (isset($_POST['send'])) {
     </div>
   </section>
 
+
   <!-- contact -->
   <section class="contact" id="contact">
     <h2 class="heading">
       Contact <span>Me</span>
     </h2>
-    <?php if (isset($_GET['status']) && $_GET['status'] == "success") {
-      echo "<div class='alert alert-primary' role='alert'>Data Berhasil Dikirim</div>";
-    } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
-      echo "<div class='alert alert-warning' role='alert'>Email Sudah Ada</div>";
-    }
-    ?>
-    <form method="POST" action="">
-      <div class="input-box">
-        <input type="text" placeholder="Name" name="nama" required>
-        <input type="email" placeholder="Email" name="email" required>
-      </div>
-      <div class="input-box">
-        <input type="number" placeholder="Your number phone" name="no_hp" required>
-        <input type="text" placeholder="Subject" name="subjek" required>
-      </div>
-      <textarea name="isi_pesan" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
-      <button type="submit" value="Send Message" name="send" class="btn">Send Message</button>
-    </form>
+  <div class="contact-container">
+      <?php if (isset($_GET['status']) && $_GET['status'] == "success") {
+        echo "<div class='alert alert-primary' role='alert'>Data Berhasil Dikirim</div>";
+      } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
+        echo "<div class='alert alert-warning' role='alert'>Email Sudah Ada</div>";
+      }
+      ?>
+      <form method="POST" action="">
+        <div class="input-box">
+          <input type="text" placeholder="Name" name="nama" required>
+          <input type="email" placeholder="Email" name="email" required>
+        </div>
+        <div class="input-box">
+          <input type="number" placeholder="Your number phone" name="no_hp" required>
+          <input type="text" placeholder="Subject" name="subjek" required>
+        </div>
+        <textarea name="isi_pesan" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
+        <button type="submit" value="Send Message" name="send" class="btn">Send Message</button>
+      </form>
+    </div>
   </section>
+  
   <!-- footer -->
   <footer class="footer">
     <div class="footer-text">

@@ -2,9 +2,29 @@
 session_start();
 include 'koneksi.php';
 
-$id = isset($_GET['detail']) ? $_GET['detail'] : "";
-$queryDetail = mysqli_query($koneksi, "SELECT * FROM pesan WHERE id='$id'");
-$rowDetail = mysqli_fetch_assoc($queryDetail);
+if (isset($_POST['simpan'])) {
+  $nama = $_POST['nama'];
+  $jurusan = $_POST['jurusan'];
+  $deskripsi = $_POST['deskripsi'];
+
+  $insert = mysqli_query($koneksi, "INSERT INTO education (nama, jurusan, deskripsi) VALUES ('$nama','$jurusan','$deskripsi')");
+
+  header("location:education.php?tambah=berhasil");
+}
+
+$id = isset($_GET['edit']) ? $_GET['edit'] : "";
+$queryEdit = mysqli_query($koneksi, "SELECT * FROM education WHERE id='$id'");
+$rowEdit = mysqli_fetch_assoc($queryEdit);
+
+if (isset($_POST['edit'])) {
+  $nama = $_POST['nama'];
+  $jurusan = $_POST['jurusan'];
+  $deskripsi = $_POST['deskripsi'];
+
+  $update = mysqli_query($koneksi, "UPDATE education SET nama='$nama', jurusan='$jurusan', deskripsi='$deskripsi' WHERE id = '$id'");
+
+  header("location:education.php?edit=berhasil");
+}
 
 ?>
 <!DOCTYPE html>
@@ -45,37 +65,32 @@ $rowDetail = mysqli_fetch_assoc($queryDetail);
             <div class="col-lg-12 mb-4">
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h4 class="m-0 font-weight-bold text-primary"><?php echo isset($_GET['detail']) ? 'Detail' : '' ?> Pesan</h4>
+                  <h4 class="m-0 font-weight-bold text-primary"><?php echo isset($_GET['edit']) ? 'Edit' : 'Tambah' ?> Education</h4>
                 </div>
                 <div class="card-body">
                   <form action="" method="post" enctype="multipart/form-data">
                     <div class="mb-3 row">
                       <div class="col-sm-6">
                         <label for="" class="form-label">Nama</label>
-                        <input readonly type="text" class="form-control" name="nama" value="<?php echo isset($_GET['detail']) ? $rowDetail['nama'] : '' ?>">
+                        <input required type="text" class="form-control" placeholder="masukkan nama sekolah atau universitas" name="nama" value="<?php echo isset($_GET['edit']) ? $rowEdit['nama'] : '' ?>">
                       </div>
                       <div class="col-sm-6">
-                        <label for="" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" readonly value="<?php echo isset($_GET['detail']) ? $rowDetail['email'] : '' ?>">
+                        <label for="" class="form-label">Jurusan</label>
+                        <input type="text" name="jurusan" class="form-control" placeholder="Masukkan jurusan Anda" required value="<?php echo isset($_GET['edit']) ? $rowEdit['jurusan'] : '' ?>">
                       </div>
                     </div>
                     <div class="mb-3 row">
                       <div class="col-sm-6">
-                        <label for="" class="form-label">No HP</label>
-                        <input type="text" name="no_hp" class="form-control" readonly value="<?php echo isset($_GET['detail']) ? $rowDetail['no_hp'] : '' ?>">
-                      </div>
-                      <div class="col-sm-6">
-                        <label for="" class="form-label">Subject</label>
-                        <input type="text" name="subject" class="form-control" readonly value="<?php echo isset($_GET['detail']) ? $rowDetail['subjek'] : '' ?>">
-                      </div>
-                    </div>
-                    <div class="mb-3 row">
-                      <div class="col-sm-6">
-                        <label for="" class="form-label">Message</label>
-                        <textarea type="text" name="isi_pesan" class="form-control" readonly><?php echo isset($_GET['detail']) ? $rowDetail['isi_pesan'] : '' ?></textarea>
-                      </div>
+                        <label for="" class="form-label">Deskripsi</label>
+                        <textarea type="text" name="deskripsi" class="form-control" placeholder="Masukkan penjelasannya" required ><?php echo isset($_GET['edit']) ? $rowEdit['deskripsi'] : '' ?></textarea>
+                      </div>  
                     </div>
                     
+                    <div class="mb-3">
+                      <button class="btn btn-primary" name="<?php echo isset($_GET['edit']) ? 'edit' : 'simpan' ?>" type="submit">
+                        Simpan
+                      </button>
+                    </div>
                   </form>
                 </div>
               </div>

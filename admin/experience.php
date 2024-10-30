@@ -2,14 +2,14 @@
 session_start();
 include 'koneksi.php';
 
-$query = mysqli_query($koneksi, "SELECT * FROM pesan ORDER BY id DESC");
+$query = mysqli_query($koneksi, "SELECT * FROM experience ORDER BY id DESC");
 
 // jika parameter ada ?delete=nilai param
 if (isset($_GET['delete'])) {
   $id = $_GET['delete']; //mengambil nilai param
 
-  $delete = mysqli_query($koneksi, "DELETE FROM pesan WHERE id ='$id'");
-  header("location:pesan.php?hapus=berhasil");
+  $delete = mysqli_query($koneksi, "DELETE FROM experience WHERE id ='$id'");
+  header("location:experience.php?hapus=berhasil");
 }
 
 ?>
@@ -50,10 +50,9 @@ if (isset($_GET['delete'])) {
           <div class="row">
             <div class="col-lg-12 mb-4">
 
-              <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h4 class="m-0 font-weight-bold text-primary">Data Pesan</h4>
+                  <h4 class="m-0 font-weight-bold text-primary">Experience</h4>
                 </div>
                 <div class="card-body">
                   <?php if (isset($_GET['hapus'])): ?>
@@ -62,17 +61,15 @@ if (isset($_GET['delete'])) {
                     </div>
                   <?php endif ?>
                   <div align="right" class="mb-3">
-                    <a href="detail-pesan.php" class="btn btn-primary">Detail</a>
+                    <a href="tambah-experience.php" class="btn btn-primary">Tambah</a>
                   </div>
                   <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Email</th>
-                        <th>Nomor HP</th>
-                        <th>Subject</th>
-                        <th>Isi Pesan</th>
+                        <th>Bidang</th>
+                        <th>Deskripsi</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -82,15 +79,13 @@ if (isset($_GET['delete'])) {
                         <tr>
                           <td><?php echo $no++ ?></td>
                           <td><?php echo $row['nama'] ?></td>
-                          <td><?php echo $row['email'] ?></td>
-                          <td><?php echo $row['no_hp'] ?></td>
-                          <td><?php echo $row['subjek'] ?></td>
-                          <td><?php echo $row['isi_pesan'] ?></td>
+                          <td><?php echo $row['bidang'] ?></td>
+                          <td><?php echo $row['deskripsi'] ?></td>
                           <td>
-                            <a href="detail-pesan.php?detail=<?php echo $row['id'] ?>" class="btn btn-primary btn-sm">
-                              <i class="fa-solid fa-eye"></i>
+                            <a href="tambah-experience.php?edit=<?php echo $row['id'] ?>" class="btn btn-success btn-sm">
+                              <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a onclick="return confirm('Apakah Anda yakin akan menghapus data ini?????')" href="pesan.php?delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm">
+                            <a onclick="return confirm('Apakah Anda yakin akan menghapus data ini?????')" href="experience.php?delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm">
                               <i class="fa-solid fa-trash"></i>
                             </a>
                           </td>
