@@ -29,7 +29,7 @@ body {
   color: var(--text-color);
 }
 section {
-  min-height: 85vh;
+  min-height: 100vh;
   padding: 10rem 9% 2rem;
 }
 
@@ -200,7 +200,7 @@ span {
 }
 
 .about-content {
-  padding: 2rem;
+  padding: 5rem;
   background: var(--bg-color);
   border: 0 solid var(--main-color);
   box-shadow: 0 0 3rem var(--main-color);
@@ -209,7 +209,7 @@ span {
 
 .about-content h2 {
   text-align: left;
-  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 /* .about-content h3 {
@@ -223,6 +223,7 @@ span {
 }
 .about-content p {
   font-size: 1.6rem;
+  text-align: justify;
 }
 
 .services h2{
@@ -249,6 +250,7 @@ span {
 
 .services-container .services-box:hover {
   border-color: var(--main-color);
+  box-shadow: 0 0 3rem var(--main-color);
   transform: scale(1.02);
 }
 
@@ -265,6 +267,59 @@ span {
   font-size: 1.6rem;
   margin: 1rem 0 3rem;
 }
+
+/* resume */
+/* Resume Section */
+.resume {
+  padding: 5rem 7rem;
+  background: var(--snd-bg-color);
+}
+
+
+.resume .heading {
+  text-align: center;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+}
+.resume-container {
+  display: flex;
+  gap: 2.1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.resume-box {
+  width: 45%;
+  background: var(--bg-color);
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.resume-title {
+  font-size: 2.5rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resume-content .resume-item {
+  margin-bottom: 1.5rem;
+}
+
+.resume-institution {
+  font-size: 1.5rem;
+  color: #a8a7a7;
+}
+
+.resume-description {
+  font-size: 1.3rem;
+  color: #777;
+  margin-top: 0.5rem;
+}
+/* end resume */
 
 .portofolio {
   background: var(--snd-bg-color);
@@ -369,6 +424,7 @@ border-radius: 50%;
   color: var(--text-color);
   background: var(--snd-bg-color);
   border-radius: .8rem;
+  border: .2rem solid var(--main-color);
   margin: .7rem 0;
 }
 
@@ -520,8 +576,11 @@ border-radius: 50%;
   }
 
   .about-img img{
-    width: 100vw;
+    width: 90vw;
     margin-top: 4rem;
+  }
+  .about-content{
+    width: 95%;
   }
 }
 

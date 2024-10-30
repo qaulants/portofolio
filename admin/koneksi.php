@@ -2,7 +2,7 @@
 $host_koneksi = "localhost";
 $username_koneksi = "root";
 $password_koneksi = "";
-$database_koneksi = "portofolio";
+$database_koneksi = "portofolio-qaulan";
 
 $koneksi = mysqli_connect(
   $host_koneksi,

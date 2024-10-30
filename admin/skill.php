@@ -2,14 +2,14 @@
 session_start();
 include 'koneksi.php';
 
-$query = mysqli_query($koneksi, "SELECT * FROM project ORDER BY id DESC");
+$query = mysqli_query($koneksi, "SELECT * FROM skill ORDER BY id DESC");
 
 // jika parameter ada ?delete=nilai param
 if (isset($_GET['delete'])) {
   $id = $_GET['delete']; //mengambil nilai param
 
-  $delete = mysqli_query($koneksi, "DELETE FROM project WHERE id ='$id'");
-  header("location:project.php?hapus=berhasil");
+  $delete = mysqli_query($koneksi, "DELETE FROM skill WHERE id ='$id'");
+  header("location:skill.php?hapus=berhasil");
 }
 
 ?>
@@ -56,7 +56,7 @@ if (isset($_GET['delete'])) {
               <!-- Project Card Example -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h4 class="m-0 font-weight-bold text-primary">Portofolio</h4>
+                  <h4 class="m-0 font-weight-bold text-primary">Skills</h4>
                 </div>
                 <div class="card-body">
                   <?php if (isset($_GET['hapus'])): ?>
@@ -65,15 +65,13 @@ if (isset($_GET['delete'])) {
                     </div>
                   <?php endif ?>
                   <div align="right" class="mb-3">
-                    <a href="tambah-project.php" class="btn btn-primary"> Tambah</a>
+                    <a href="tambah-skill.php" class="btn btn-primary"> Tambah</a>
                   </div>
                   <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Judul</th>
-                        <th>Deskripsi</th>
-                        <th>Link</th>
+                        <th>Nama</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
                       </tr>
@@ -83,15 +81,13 @@ if (isset($_GET['delete'])) {
                       while ($row = mysqli_fetch_assoc($query)): ?>
                         <tr>
                           <td><?php echo $no++ ?></td>
-                          <td><?php echo $row['judul'] ?></td>
-                          <td><?php echo $row['deskripsi'] ?></td>
-                          <td><?php echo $row['link'] ?></td>
-                          <td><img width="60" src="upload/project/<?php echo $row['foto_bg'] ?>" alt=""></td>
+                          <td><?php echo $row['nama'] ?></td>
+                          <td><img width="60" src="upload/skill/<?php echo $row['gambar_icon'] ?>" alt="gambar icon"></td>
                           <td>
-                            <a href="tambah-project.php?edit=<?php echo $row['id'] ?>" class="btn btn-success btn-sm">
+                            <a href="tambah-skill.php?edit=<?php echo $row['id'] ?>" class="btn btn-success btn-sm">
                               <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a onclick="return confirm('Apakah Anda yakin akan menghapus data ini?????')" href="project.php?delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm">
+                            <a onclick="return confirm('Apakah Anda yakin akan menghapus data ini?????')" href="skill.php?delete=<?php echo $row['id'] ?>" class="btn btn-danger btn-sm">
                               <i class="fa-solid fa-trash"></i>
                             </a>
                           </td>

@@ -34,6 +34,27 @@ if (isset($_POST['simpan'])) {
     } else {
       $updateUser = mysqli_query($koneksi, "UPDATE user SET nama='$nama', email='$email' WHERE id='$id'");
     }
+
+    // Cek apakah ada dokumen yang di-upload
+    if (!empty($_FILES['cv']['name'])) {
+      $nama_cv = $_FILES['cv']['name'];
+      $extCv = pathinfo($nama_cv, PATHINFO_EXTENSION);
+      $extCvValid = array('pdf', 'doc', 'docx'); // Tambahkan format yang diinginkan
+
+      // Validasi ekstensi dokumen
+      if (!in_array($extCv, $extCvValid)) {
+        echo "Format dokumen harus PDF, DOC, atau DOCX.";
+        die;
+      }
+
+      // Menghapus dokumen lama jika ada
+      @unlink('uploadDok/' . $rowUser['dokumen']);
+      // Upload dokumen baru
+      move_uploaded_file($_FILES['cv']['tmp_name'], 'uploadDok/' . $nama_cv);
+
+      // Update dokumen ke database
+      $updateUser = mysqli_query($koneksi, "UPDATE user SET dokumen='$nama_cv' WHERE id='$id'");
+    }
   } else {
     if (!empty($_FILES['foto']['name'])) {
       $nama_foto = $_FILES['foto']['name'];
@@ -52,6 +73,24 @@ if (isset($_POST['simpan'])) {
         move_uploaded_file($_FILES['foto']['tmp_name'], 'upload/' . $nama_foto);
 
         $insert = mysqli_query($koneksi, "INSERT INTO user (nama, email, foto_user) VALUES ('$nama', '$email', '$nama_foto')");
+      }
+    } else {
+      $insert = mysqli_query($koneksi, "INSERT INTO user (nama, email) VALUES ('$nama', '$email')");
+    }
+    if (!empty($_FILES['cv']['name'])) {
+      $nama_dokumen = $_FILES['cv']['name'];
+      $ukuran_dokumen = $_FILES['cv']['size'];
+
+      $extDokumen = pathinfo($nama_dokumen, PATHINFO_EXTENSION);
+      $extValid = array('pdf', 'doc', 'docx'); // Ekstensi yang diizinkan
+
+      if (!in_array($extDokumen, $extValid)) {
+        echo "Maaf, hanya bisa upload file dengan ekstensi PDF, DOC, atau DOCX.";
+        die;
+      } else {
+        // Upload dokumen
+        move_uploaded_file($_FILES['cv']['tmp_name'], 'upload/' . $nama_dokumen);
+        $insert = mysqli_query($koneksi, "INSERT INTO user (nama, email, foto_user, dokumen) VALUES ('$nama', '$email', '$nama_foto', '$nama_dokumen')");
       }
     } else {
       $insert = mysqli_query($koneksi, "INSERT INTO user (nama, email) VALUES ('$nama', '$email')");
@@ -116,7 +155,7 @@ if (isset($_POST['edit'])) {
           <div class="row">
             <div class="col-lg-12 mb-4">
 
-             
+
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
                   <h4 class="m-0 font-weight-bold text-primary">Data Profile</h4>
@@ -145,6 +184,13 @@ if (isset($_POST['edit'])) {
                         <label for="" class="form-label">Foto</label>
                         <input type="file" name="foto">
                         <img width="100" src="upload/<?php echo isset($rowUser['foto_user']) ? $rowUser['foto_user'] : '' ?>" alt="">
+                      </div>
+                    </div>
+                    <div class="mb-3 row">
+                      <div class="col-sm-12">
+                        <label for="" class="form-label">Dokumen CV</label>
+                        <input type="file" name="cv">
+                        <img width="100" src="uploadDok/<?php echo isset($rowUser['dokumen']) ? $rowUser['dokumen'] : '' ?>" alt="">
                       </div>
                     </div>
                     <div class="mb-3">

@@ -1,12 +1,13 @@
 // scroll navbar
 window.addEventListener('scroll', function() {
   const header = document.querySelector('.header');
-  if (window.scrollY > 0) {
+  if (window.scrollY > 50) {
     header.classList.add('scrolled');
   } else {
     header.classList.remove('scrolled');
   }
 });
+
 
 // toggle navbar
 let menuIcon = document.querySelector('#menu-icon');
@@ -59,7 +60,7 @@ ScrollReveal().reveal('.home-contact p, .about-content', {origin: 'right'});
 
 // typed js
 const typed = new Typed('.multiple-text', {
-  strings: ['Web Developer?', 'Data Scientist?', '???'],
+  strings: ['Web Developer(Aamiin)', 'Data Scientist(Aamiin)', '???'],
   typeSpeed: 70,
   backSpeed: 70,
   backDelay: 1000,

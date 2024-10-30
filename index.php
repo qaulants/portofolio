@@ -12,6 +12,8 @@ $rowPengaturan = mysqli_fetch_assoc($queryPengaturan);
 $queryAbout = mysqli_query($koneksi, "SELECT * FROM about ORDER BY id DESC");
 $rowAbout = mysqli_fetch_assoc($queryAbout);
 
+$querySkill = mysqli_query($koneksi, "SELECT * FROM skill ORDER BY id DESC");
+
 if (isset($_POST['send'])) {
   $name = mysqli_real_escape_string($koneksi, $_POST['nama']);
   $email = htmlspecialchars($_POST['email']);
@@ -22,15 +24,15 @@ if (isset($_POST['send'])) {
   $select = mysqli_query($koneksi, "SELECT email FROM pesan WHERE email = '$email'");
 
   if (mysqli_num_rows($select) > 0) {
-      header("location: index.php?status=email-sudahada");
-      exit();
+    header("location: index.php?status=email-sudahada");
+    exit();
   } else {
-      $insert = mysqli_query($koneksi, "INSERT INTO pesan (nama, email, no_hp, subjek, isi_pesan) VALUES ('$name', '$email', '$no_hp', '$subject', '$message') ");
+    $insert = mysqli_query($koneksi, "INSERT INTO pesan (nama, email, no_hp, subjek, isi_pesan) VALUES ('$name', '$email', '$no_hp', '$subject', '$message') ");
 
-      if ($insert) {
-          header("Location: index.php?status=success");
-          exit();
-      }
+    if ($insert) {
+      header("Location: index.php?status=success");
+      exit();
+    }
   }
 }
 ?>
@@ -61,6 +63,7 @@ if (isset($_POST['send'])) {
       <a href="#home" class="active">Home</a>
       <a href="#about">About</a>
       <a href="#services">My Skils</a>
+      <a href="#resume">Resume</a>
       <a href="#portofolio">Portofolio</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -70,21 +73,21 @@ if (isset($_POST['send'])) {
   <section class="home" id="home">
     <div class="home-content">
       <h3>Hi, My Name is</h3>
-      <h1>Qaulan Tsaqila</h1>
-      <h3>Am I <span class="multiple-text"></span></h3>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil unde quibusdam quo.</p>
+      <h1><?php echo $rowUser['nama'] ?></h1>
+      <h3>I am a <span class="multiple-text"></span></h3>
+      <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil unde quibusdam quo.</p> -->
       <div class="social-media">
         <a href="<?php echo $rowPengaturan['fb_link'] ?>"><i class="fa-brands fa-facebook"></i></a>
         <a href="<?php echo $rowPengaturan['ig_link'] ?>"><i class="fa-brands fa-instagram"></i></a>
         <a href="<?php echo $rowPengaturan['linkedin_link'] ?>"><i class="fa-brands fa-linkedin"></i></a>
       </div>
-      <a href="#" class="btn">Download CV</a>
+      <a href="admin/uploadDok/<?php echo $rowUser['dokumen']?>" class="btn">Download CV</a>
     </div>
     <div class="home-img">
       <img src="" alt="">
     </div>
   </section>
-<!--  -->
+  <!--  -->
   <!-- about -->
   <section class="about" id="about">
     <div class="about-img">
@@ -94,16 +97,7 @@ if (isset($_POST['send'])) {
     <div class="about-content">
       <h2 class="heading">About <span>Me</span></h2>
       <!-- <h3>Web Developer</h3> -->
-          <p class="fst-italic py-3">
-            <?php echo $rowAbout['deskripsi_diri'];?>
-          </p>
-          <ul>
-            <li> <strong>Birthday:</strong> <span><?php echo $rowAbout['birthday'];?></span></li> 
-            <li> <strong>Email:</strong> <span><?php echo $rowAbout['email'];?></span></li>
-            <li> <strong>City:</strong> <span><?php echo $rowAbout['city'];?></span></li>
-            <li> <strong>Degree:</strong> <span><?php echo $rowAbout['degree'] ?></span></li>
-            <li> <strong>Freelance:</strong> <span>Available</span></li>
-          </ul>  
+      <p><?php echo $rowAbout['deskripsi_diri']; ?></p>
     </div>
   </section>
 
@@ -112,32 +106,59 @@ if (isset($_POST['send'])) {
     <h2 class="heading">My <span>Skills</span> </h2>
 
     <div class="services-container">
-      <div class="services-box">
-        <i class="fa-brands fa-html5"></i>
-        <h3>HTML</h3>
+      <?php while ($rowSkill = mysqli_fetch_assoc($querySkill)): ?>
+        <div class="services-box">
+          <i><img width="50" src="admin/upload/skill/<?php echo $rowSkill['gambar_icon'] ?>" alt=""></i>
+          <h3><?php echo $rowSkill['nama'] ?></h3>
+        </div>
+      <?php endwhile; ?>
+    </div>
+
+  </section>
+
+  <!-- resume section -->
+  <section class="resume" id="resume">
+    <h2 class="heading">My <span>Resume</span></h2>
+
+    <div class="resume-container">
+
+      <!-- Education Section -->
+      <div class="resume-box">
+        <h2 class="resume-title"><i class="fa-solid fa-graduation-cap"></i> Education</h2>
+        <div class="resume-content">
+          <div class="resume-item">
+            <h2>Computer Science</h2>
+            <p class="resume-institution">University XYZ, 2021 - 2024</p>
+            <p class="resume-description">Achieved a Bachelor’s Degree in Computer Science with a focus on web development, data science, and software engineering.</p>
+          </div>
+          <div class="resume-item">
+            <h2>Digital Talent Scholarship – FGA</h2>
+            <p class="resume-institution">Completed, February - April 2024</p>
+            <p class="resume-description">Participated in a data science training program that enhanced my skills in data analysis, machine learning, and Python programming.</p>
+          </div>
+        </div>
       </div>
-      <div class="services-box">
-        <i class="fa-brands fa-css3-alt"></i>
-        <h3>CSS</h3>
+
+      <!-- Experience Section -->
+      <div class="resume-box">
+        <h3 class="resume-title"><i class="fa-solid fa-briefcase"></i> Experience</h3>
+        <div class="resume-content">
+          <div class="resume-item">
+            <h2>Intern - Frontend Developer</h2>
+            <p class="resume-institution">ABC Tech Company, 2023 - Present</p>
+            <p class="resume-description">Worked on developing responsive web applications using HTML, CSS, and JavaScript. Collaborated with the design team to implement modern UI components.</p>
+          </div>
+          <div class="resume-item">
+            <h2>Member of Creative and Design Division</h2>
+            <p class="resume-institution">HIMTI, 2022 - 2023</p>
+            <p class="resume-description">Designed social media posts and event posters, contributing to increased engagement for the organization’s online presence.</p>
+          </div>
+        </div>
       </div>
-      <div class="services-box">
-        <i class="fa-brands fa-js"></i>
-        <h3>JS</h3>
-      </div>
-      <div class="services-box">
-        <i class="fa-brands fa-bootstrap"></i>
-        <h3>Bootstrap</h3>
-      </div>
-      <div class="services-box">
-        <i class="fa-brands fa-bootstrap"></i>
-        <h3>Bootstrap</h3>
-      </div>
-      <div class="services-box">
-        <i class="fa-brands fa-bootstrap"></i>
-        <h3>Bootstrap</h3>
-      </div>
+
     </div>
   </section>
+
 
   <!-- portofolio section -->
   <section class="portofolio" id="portofolio">
@@ -162,10 +183,10 @@ if (isset($_POST['send'])) {
       Contact <span>Me</span>
     </h2>
     <?php if (isset($_GET['status']) && $_GET['status'] == "success") {
-                        echo "<div class='alert alert-primary' role='alert'>Data Berhasil Dikirim</div>";
-                    } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
-                        echo "<div class='alert alert-warning' role='alert'>Email Sudah Ada</div>";
-                    }
+      echo "<div class='alert alert-primary' role='alert'>Data Berhasil Dikirim</div>";
+    } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
+      echo "<div class='alert alert-warning' role='alert'>Email Sudah Ada</div>";
+    }
     ?>
     <form method="POST" action="">
       <div class="input-box">

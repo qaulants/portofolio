@@ -47,6 +47,15 @@
   <hr class="sidebar-divider my-0">
 
   <li class="nav-item">
+    <a class="nav-link" href="skill.php">
+      <i class="fas fa-fw fa-star"></i>
+      <span>Skills</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <li class="nav-item">
     <a class="nav-link" href="project.php">
       <i class="fas fa-fw fa-clipboard-list"></i>
       <span>Portofolio</span></a>
@@ -56,7 +65,7 @@
 
   <li class="nav-item">
     <a class="nav-link" href="pesan.php">
-      <i class="fas fa-fw fa-clipboard-list"></i>
+      <i class="fas fa-fw fa-envelope"></i>
       <span>Pesan</span></a>
   </li>
   <hr class="sidebar-divider my-0">
